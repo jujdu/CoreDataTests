@@ -72,6 +72,7 @@ class FilterViewController: UITableViewController {
     populateCheapVenueCountLabel()
     populateModerateVenueCountLabel()
     populateExpensiveVenueCountLabel()
+    populateDealsCountLabel()
   }
 }
 
@@ -136,4 +137,29 @@ extension FilterViewController {
        print("Count not fetch \(error), \(error.userInfo)")
      }
    }
+  
+  func populateDealsCountLabel() {
+    let fetchRequest = NSFetchRequest<NSDictionary>(entityName: "Venue")
+    fetchRequest.resultType = .dictionaryResultType
+    
+    let sumExpressionDesc = NSExpressionDescription()
+    sumExpressionDesc.name = "sumDeals"
+    
+    let specialCountExp = NSExpression(forKeyPath: #keyPath(Venue.specialCount))
+    sumExpressionDesc.expression = NSExpression(forFunction: "sum:", arguments: [specialCountExp])
+    sumExpressionDesc.expressionResultType = .integer32AttributeType
+    
+    fetchRequest.propertiesToFetch = [sumExpressionDesc]
+    
+    do {
+      let results = try coreDataStack.managedContext.fetch(fetchRequest)
+      
+      let resultDict = results.first!
+      let numDeals = resultDict["sumDeals"] as! Int
+      let pluralized = numDeals == 1 ? "deal" : "deals"
+      numDealsLabel.text = "\(numDeals) \(pluralized)"
+    } catch let error as NSError {
+      print("Count not fetch \(error), \(error.userInfo)")
+    }
+  }
 }

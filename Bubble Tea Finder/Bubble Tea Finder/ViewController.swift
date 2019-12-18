@@ -29,13 +29,16 @@
  */
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
 
   // MARK: - Properties
   private let filterViewControllerSegueIdentifier = "toFilterViewController"
   fileprivate let venueCellIdentifier = "VenueCell"
-
+  var fetchRequest: NSFetchRequest<Venue>?
+  var venues: [Venue] = []
+  
   var coreDataStack: CoreDataStack!
 
   // MARK: - IBOutlets
@@ -44,12 +47,17 @@ class ViewController: UIViewController {
   // MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    guard let model = coreDataStack.managedContext.persistentStoreCoordinator?.managedObjectModel,
+      let fetchRequest = model.fetchRequestTemplate(forName: "FetchRequest") as? NSFetchRequest<Venue> else { return }
+    self.fetchRequest = fetchRequest
+    fetchAndReload()
   }
 
   // MARK: - Navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == filterViewControllerSegueIdentifier {
-      
+      guard let nc = segue.destination as? UINavigationController, let filterVC = nc.topViewController as? FilterViewController else { return }
+      filterVC.coreDataStack = coreDataStack
     }
   }
 }
@@ -61,17 +69,32 @@ extension ViewController {
   }
 }
 
+//MARK: - Helper methods
+extension ViewController {
+  func fetchAndReload() {
+    guard let fetchRequest = fetchRequest else { return }
+    
+    do {
+      venues = try coreDataStack.managedContext.fetch(fetchRequest)
+      tableView.reloadData()
+    } catch let error as NSError {
+      print("Could not fetch \(error), \(error.userInfo)")
+    }
+  }
+}
+
 // MARK: - UITableViewDataSource
 extension ViewController: UITableViewDataSource {
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 10
+    return venues.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: venueCellIdentifier, for: indexPath)
-    cell.textLabel?.text = "Bubble Tea Venue"
-    cell.detailTextLabel?.text = "Price Info"
+    let venue = venues[indexPath.row]
+    cell.textLabel?.text = venue.name
+    cell.detailTextLabel?.text = venue.priceInfo?.priceCategory
     return cell
   }
 }

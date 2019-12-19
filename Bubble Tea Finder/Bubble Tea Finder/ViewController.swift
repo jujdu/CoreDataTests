@@ -47,9 +47,10 @@ class ViewController: UIViewController {
   // MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    guard let model = coreDataStack.managedContext.persistentStoreCoordinator?.managedObjectModel,
-      let fetchRequest = model.fetchRequestTemplate(forName: "FetchRequest") as? NSFetchRequest<Venue> else { return }
-    self.fetchRequest = fetchRequest
+//    guard let model = coreDataStack.managedContext.persistentStoreCoordinator?.managedObjectModel,
+//      let fetchRequest = model.fetchRequestTemplate(forName: "FetchRequest") as? NSFetchRequest<Venue> else { return }
+//    self.fetchRequest = fetchRequest
+    fetchRequest = Venue.fetchRequest()
     fetchAndReload()
   }
 
@@ -58,6 +59,7 @@ class ViewController: UIViewController {
     if segue.identifier == filterViewControllerSegueIdentifier {
       guard let nc = segue.destination as? UINavigationController, let filterVC = nc.topViewController as? FilterViewController else { return }
       filterVC.coreDataStack = coreDataStack
+      filterVC.delegate = self
     }
   }
 }
@@ -96,5 +98,20 @@ extension ViewController: UITableViewDataSource {
     cell.textLabel?.text = venue.name
     cell.detailTextLabel?.text = venue.priceInfo?.priceCategory
     return cell
+  }
+}
+
+extension ViewController: FilterViewControllerDelegate {
+  func filterViewController(filter: FilterViewController, didSelectPredicate predicate: NSPredicate?, sortDescriptor: NSSortDescriptor?) {
+    guard let fetchRequest = fetchRequest else { return }
+    fetchRequest.predicate = nil
+    fetchRequest.sortDescriptors = nil
+    
+    fetchRequest.predicate = predicate
+    
+    if let sr = sortDescriptor {
+      fetchRequest.sortDescriptors = [sr]
+    }
+    fetchAndReload()
   }
 }

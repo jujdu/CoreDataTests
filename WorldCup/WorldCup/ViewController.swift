@@ -29,12 +29,19 @@
  */
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
 
   // MARK: - Properties
   fileprivate let teamCellIdentifier = "teamCellReuseIdentifier"
   var coreDataStack: CoreDataStack!
+  lazy var fetchedResultsController: NSFetchedResultsController<Team> = {
+    let fetchRequest: NSFetchRequest<Team> = Team.fetchRequest()
+    
+    let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.managedContext, sectionNameKeyPath: nil, cacheName: nil)
+    return fetchedResultsController
+  }()
 
   // MARK: - IBOutlets
   @IBOutlet weak var tableView: UITableView!
@@ -43,6 +50,12 @@ class ViewController: UIViewController {
   // MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    do {
+      try fetchedResultsController.performFetch()
+    } catch let error as NSError {
+      print("Fetching error: \(error), \(error.userInfo)")
+    }
   }
 }
 
@@ -65,11 +78,12 @@ extension ViewController {
 extension ViewController: UITableViewDataSource {
 
   func numberOfSections(in tableView: UITableView) -> Int {
-    return 1
+    return fetchedResultsController.sections?.count ?? 0
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 20
+    guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
+    return sectionInfo.numberOfObjects
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

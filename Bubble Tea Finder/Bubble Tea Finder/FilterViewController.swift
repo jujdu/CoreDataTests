@@ -83,21 +83,26 @@ class FilterViewController: UITableViewController {
     return NSPredicate(format: "%K < 500", #keyPath(Venue.location.distance))
   }()
   lazy var hasUserTipsPredicate: NSPredicate = {
+//    return NSPredicate(format: "%K > 0", \Venue.stats?.tipCount)// <- doens't work
     return NSPredicate(format: "%K > 0", #keyPath(Venue.stats.tipCount))
   }()
   
   //MARK: - NSSortDescriptor
   lazy var nameSortDescriptor: NSSortDescriptor = {
     let compareSelector = #selector(NSString.localizedStandardCompare(_:))
-    return NSSortDescriptor(key: #keyPath(Venue.name), ascending: true, selector: compareSelector)
+    return NSSortDescriptor(keyPath: \Venue.name, ascending: true)
+//    return NSSortDescriptor(key: #keyPath(Venue.name), ascending: true, selector: compareSelector)
   }()
   lazy var distanceSortDescriptor: NSSortDescriptor = {
-    return NSSortDescriptor(key: #keyPath(Venue.location.distance), ascending: true)
+    return NSSortDescriptor(keyPath: \Venue.location?.distance, ascending: true)
+//    return NSSortDescriptor(key: #keyPath(Venue.location.distance), ascending: true)
   }()
   lazy var priceSortDescriptor: NSSortDescriptor = {
-    return NSSortDescriptor(key: #keyPath(Venue.priceInfo.priceCategory), ascending: true)
+//    return NSSortDescriptor(key: #keyPath(Venue.priceInfo.priceCategory), ascending: true)
+    return NSSortDescriptor(keyPath: \Venue.priceInfo?.priceCategory, ascending: true)
   }()
 
+  let abc = \Venue.priceInfo?.priceCategory
   // MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()

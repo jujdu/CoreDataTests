@@ -38,6 +38,7 @@ class ViewController: UIViewController {
   fileprivate let venueCellIdentifier = "VenueCell"
   var fetchRequest: NSFetchRequest<Venue>?
   var venues: [Venue] = []
+  var asyncFetchRequest: NSAsynchronousFetchRequest<Venue>?
   
   var coreDataStack: CoreDataStack!
 
@@ -47,11 +48,42 @@ class ViewController: UIViewController {
   // MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    let batchUpdate = NSBatchUpdateRequest(entityName: "Venue")
+//    batchUpdate.propertiesToUpdate = [\Venue.favorite: true]
+    batchUpdate.propertiesToUpdate = [#keyPath(Venue.favorite): true]
+    
+    batchUpdate.affectedStores = coreDataStack.managedContext.persistentStoreCoordinator?.persistentStores
+    
+    batchUpdate.resultType = .updatedObjectsCountResultType
+    
+    
+    do {
+      let batchResult = try coreDataStack.managedContext.execute(batchUpdate) as! NSBatchUpdateResult
+      print("Records updated \(batchResult.result!)")
+    } catch let error as NSError {
+      print("Couldn't update \(error), \(error.userInfo)")
+    }
 //    guard let model = coreDataStack.managedContext.persistentStoreCoordinator?.managedObjectModel,
 //      let fetchRequest = model.fetchRequestTemplate(forName: "FetchRequest") as? NSFetchRequest<Venue> else { return }
 //    self.fetchRequest = fetchRequest
-    fetchRequest = Venue.fetchRequest()
-    fetchAndReload()
+    
+    let venueFetchRequest: NSFetchRequest<Venue> = Venue.fetchRequest()
+    fetchRequest = venueFetchRequest
+    
+    asyncFetchRequest = NSAsynchronousFetchRequest<Venue>(fetchRequest: venueFetchRequest) { [unowned self] (result) in
+      guard let venues = result.finalResult else { return }
+      
+      self.venues = venues
+      self.tableView.reloadData()
+    }
+    
+    do {
+      guard let asyncFetchRequest = asyncFetchRequest else { return }
+      try coreDataStack.managedContext.execute(asyncFetchRequest)
+    } catch let error as NSError {
+      print("Couldn't fetch \(error), \(error.userInfo)")
+    }
   }
 
   // MARK: - Navigation
@@ -61,13 +93,6 @@ class ViewController: UIViewController {
       filterVC.coreDataStack = coreDataStack
       filterVC.delegate = self
     }
-  }
-}
-
-// MARK: - IBActions
-extension ViewController {
-
-  @IBAction func unwindToVenueListViewController(_ segue: UIStoryboardSegue) {
   }
 }
 
@@ -84,6 +109,14 @@ extension ViewController {
     }
   }
 }
+
+// MARK: - IBActions
+extension ViewController {
+
+  @IBAction func unwindToVenueListViewController(_ segue: UIStoryboardSegue) {
+  }
+}
+
 
 // MARK: - UITableViewDataSource
 extension ViewController: UITableViewDataSource {

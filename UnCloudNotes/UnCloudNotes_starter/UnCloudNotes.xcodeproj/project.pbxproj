@@ -11,6 +11,8 @@
 		279570D719827BC400F52BA9 /* ImageTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279570D619827BC400F52BA9 /* ImageTransformer.swift */; };
 		6F5B822023B0BC16004B149D /* UnCloudNotesMappingModel_v2_to_v3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B821F23B0BC16004B149D /* UnCloudNotesMappingModel_v2_to_v3.xcmappingmodel */; };
 		6F5B822323B0DB57004B149D /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B822223B0DB57004B149D /* ImageAttachment.swift */; };
+		6F5B822523B0E347004B149D /* UnCloudNotesMappingModel_v3_to_v4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B822423B0E347004B149D /* UnCloudNotesMappingModel_v3_to_v4.xcmappingmodel */; };
+		6F5B822723B0E7B3004B149D /* AttachmentToImageAttachmentMigrationPolicyV3toV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B822623B0E7B3004B149D /* AttachmentToImageAttachmentMigrationPolicyV3toV4.swift */; };
 		6F9423CC23AFF08100ED76CC /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9423CB23AFF08100ED76CC /* Attachment.swift */; };
 		790FC6E4198439AD00B52A53 /* AttachPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790FC6E3198439AD00B52A53 /* AttachPhotoViewController.swift */; };
 		95863A171D6DE01200247AE2 /* NoteImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95863A161D6DE01200247AE2 /* NoteImageTableViewCell.swift */; };
@@ -33,6 +35,8 @@
 		6F5B821F23B0BC16004B149D /* UnCloudNotesMappingModel_v2_to_v3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = UnCloudNotesMappingModel_v2_to_v3.xcmappingmodel; sourceTree = "<group>"; };
 		6F5B822123B0DA36004B149D /* UnCloudNotesDataModel v4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "UnCloudNotesDataModel v4.xcdatamodel"; sourceTree = "<group>"; };
 		6F5B822223B0DB57004B149D /* ImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAttachment.swift; sourceTree = "<group>"; };
+		6F5B822423B0E347004B149D /* UnCloudNotesMappingModel_v3_to_v4.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = UnCloudNotesMappingModel_v3_to_v4.xcmappingmodel; sourceTree = "<group>"; };
+		6F5B822623B0E7B3004B149D /* AttachmentToImageAttachmentMigrationPolicyV3toV4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentToImageAttachmentMigrationPolicyV3toV4.swift; sourceTree = "<group>"; };
 		6F9423C923AFE6E300ED76CC /* UnCloudNotesDataModel v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "UnCloudNotesDataModel v2.xcdatamodel"; sourceTree = "<group>"; };
 		6F9423CA23AFEED100ED76CC /* UnCloudNotesDataModel v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "UnCloudNotesDataModel v3.xcdatamodel"; sourceTree = "<group>"; };
 		6F9423CB23AFF08100ED76CC /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 		C77E1E6E1947D6D700762492 = {
 			isa = PBXGroup;
 			children = (
+				6F5B822423B0E347004B149D /* UnCloudNotesMappingModel_v3_to_v4.xcmappingmodel */,
 				6F5B821F23B0BC16004B149D /* UnCloudNotesMappingModel_v2_to_v3.xcmappingmodel */,
 				C77E1E791947D6D700762492 /* UnCloudNotes */,
 				C77E1E781947D6D700762492 /* Products */,
@@ -114,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				C77E1E7B1947D6D700762492 /* Info.plist */,
+				6F5B822623B0E7B3004B149D /* AttachmentToImageAttachmentMigrationPolicyV3toV4.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -202,10 +208,12 @@
 				C7F78B94194E1FA900BAF550 /* UnCloudNotesDataModel.xcdatamodeld in Sources */,
 				C77E1E7F1947D6D700762492 /* NotesListViewController.swift in Sources */,
 				C7F78B8F194E1D5A00BAF550 /* NoteDetailViewController.swift in Sources */,
+				6F5B822523B0E347004B149D /* UnCloudNotesMappingModel_v3_to_v4.xcmappingmodel in Sources */,
 				6F9423CC23AFF08100ED76CC /* Attachment.swift in Sources */,
 				279570D719827BC400F52BA9 /* ImageTransformer.swift in Sources */,
 				790FC6E4198439AD00B52A53 /* AttachPhotoViewController.swift in Sources */,
 				C7BBD86D194FFCDF00BDDB95 /* Note.swift in Sources */,
+				6F5B822723B0E7B3004B149D /* AttachmentToImageAttachmentMigrationPolicyV3toV4.swift in Sources */,
 				C71A68741948D2CB003A62E7 /* CreateNoteViewController.swift in Sources */,
 				6F5B822023B0BC16004B149D /* UnCloudNotesMappingModel_v2_to_v3.xcmappingmodel in Sources */,
 				C7F78B91194E1F1300BAF550 /* NoteTableViewCell.swift in Sources */,

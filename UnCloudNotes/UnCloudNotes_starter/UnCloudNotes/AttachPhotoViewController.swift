@@ -63,10 +63,11 @@ extension AttachPhotoViewController: UIImagePickerControllerDelegate {
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
     guard let note = note, let context = note.managedObjectContext else { return }
     
-    let attachment = Attachment(context: context)
+    let attachment = ImageAttachment(context: context)
     attachment.dateCreated = Date()
     attachment.image = info[UIImagePickerControllerOriginalImage] as? UIImage
     attachment.note = note
+    attachment.caption = "New photo"
     navigationController?.popViewController(animated: true)
   }
 }

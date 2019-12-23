@@ -7,7 +7,7 @@
     <entity name="ImageAttachment" representedClassName=".ImageAttachment" parentEntity="Attachment" syncable="YES">
         <attribute name="caption" attributeType="String" syncable="YES"/>
         <attribute name="height" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="image" optional="YES" attributeType="Transformable" valueTransformerName="ImageTransformer" customClassName="." syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName=".ImageTransformer" syncable="YES"/>
         <attribute name="width" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <entity name="Note" representedClassName="UnCloudNotes.Note" syncable="YES">
@@ -19,7 +19,7 @@
     </entity>
     <elements>
         <element name="Attachment" positionX="-284.1484375" positionY="-75.296875" width="128" height="73"/>
-        <element name="Note" positionX="-523.671875" positionY="-77.2890625" width="128" height="118"/>
         <element name="ImageAttachment" positionX="-284.3359375" positionY="83.578125" width="128" height="103"/>
+        <element name="Note" positionX="-523.671875" positionY="-77.2890625" width="128" height="118"/>
     </elements>
 </model>

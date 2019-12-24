@@ -32,11 +32,11 @@ import CoreData
 @testable import EmployeeDirectory
 
 class EmployeeDetailViewControllerTests: XCTestCase {
-
+  
   func testCountSales() {
     measureMetrics([.wallClockTime],
                    automaticallyStartMeasuring: false) {
-
+                    
                     let employee = getEmployee()
                     let employeeDetails = EmployeeDetailViewController()
                     startMeasuring()
@@ -45,11 +45,35 @@ class EmployeeDetailViewControllerTests: XCTestCase {
     }
   }
   
+  func testCountSalesFast() {
+    measureMetrics([.wallClockTime],
+                   automaticallyStartMeasuring: false) {
+                    
+                    let employee = getEmployee()
+                    let employeeDetails = EmployeeDetailViewController()
+                    startMeasuring()
+                    _ = employeeDetails.salesCountForEmployeeFast(employee)
+                    stopMeasuring()
+    }
+  }
+  
+  func testCountSalesSimple() {
+    measureMetrics([.wallClockTime],
+                   automaticallyStartMeasuring: false) {
+                    
+                    let employee = getEmployee()
+                    let employeeDetails = EmployeeDetailViewController()
+                    startMeasuring()
+                    _ = employeeDetails.salesCountForEmployeeSimple(employee)
+                    stopMeasuring()
+    }
+  }
+  
   func getEmployee() -> Employee {
     let coreDataStack = CoreDataStack(modelName: "EmployeeDirectory")
-
+    
     let request: NSFetchRequest<Employee> = Employee.fetchRequest()
-
+    
     request.sortDescriptors = [NSSortDescriptor(key: "guid", ascending: true)]
     request.fetchBatchSize = 1
     let results: [AnyObject]?

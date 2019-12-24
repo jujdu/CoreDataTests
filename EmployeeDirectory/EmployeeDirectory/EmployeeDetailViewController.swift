@@ -92,7 +92,7 @@ private extension EmployeeDetailViewController {
 
     bioTextView.text = employee.about
 
-    salesCountLabel.text = salesCountForEmployee(employee)
+    salesCountLabel.text = salesCountForEmployeeFast(employee)
   }
 }
 
@@ -114,5 +114,24 @@ extension EmployeeDetailViewController {
       print("Error: \(error.localizedDescription)")
       return "0"
     }
+  }
+  
+  func salesCountForEmployeeFast(_ employee: Employee) -> String {
+    let fetchRequest: NSFetchRequest<Sale> = Sale.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "%K = %@", argumentArray: [#keyPath(Sale.employee), employee])
+    
+    let context = employee.managedObjectContext!
+    
+    do {
+      let results = try context.count(for: fetchRequest)
+      return "\(results)"
+    } catch let error as NSError {
+      print("Error: \(error.localizedDescription)")
+      return "0"
+    }
+  }
+  
+  func salesCountForEmployeeSimple(_ employee: Employee) -> String {
+    return "\(employee.sales!.count)"
   }
 }

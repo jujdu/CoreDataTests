@@ -87,7 +87,7 @@ extension DepartmentDetailsViewController {
     
     do {
       let results = try coreDataStack.mainContext.fetch(fetchRequest)
-      return String(results.count)
+      return String(results.count)//сразу считать через функцию count:
     } catch let error as NSError {
       print("Error: \(error.localizedDescription)")
       return "0"
@@ -96,14 +96,14 @@ extension DepartmentDetailsViewController {
   
   func activeEmployees(_ department: String) -> String {
     let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
-    fetchRequest.predicate = NSPredicate(format: "%K = %@ AND %@ = YES",
+    fetchRequest.predicate = NSPredicate(format: "%K = %@ AND %@ = YES",//поменять местами
                                          argumentArray: [#keyPath(Employee.department),
                                                          department,
                                                          #keyPath(Employee.active)])
     
     do {
       let results = try coreDataStack.mainContext.fetch(fetchRequest)
-      return String(results.count)
+      return String(results.count)//сразу считать через функцию count:
     } catch let error as NSError {
       print("Error: \(error.localizedDescription)")
       return "0"

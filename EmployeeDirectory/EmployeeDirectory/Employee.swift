@@ -47,7 +47,8 @@ extension Employee {
   @NSManaged public var guid: String?
   @NSManaged public var name: String?
   @NSManaged public var phone: String?
-  @NSManaged public var picture: Data?
+  @NSManaged public var pictureThumbnail: Data?
+  @NSManaged public var picture: EmployeePicture?
   @NSManaged public var startDate: Date?
   @NSManaged public var vacationDays: NSNumber?
   @NSManaged public var sales: NSSet?

@@ -91,6 +91,7 @@ extension EmployeeListViewController {
   func employeeFetchRequest(_ department: String?) -> NSFetchRequest<Employee> {
     
     let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
+    fetchRequest.fetchBatchSize = 10
     
     let sortDescriptor = NSSortDescriptor(key: "startDate", ascending: true)
     fetchRequest.sortDescriptors = [sortDescriptor]
@@ -138,7 +139,7 @@ extension EmployeeListViewController {
     cell.departmentLabel.text = employee.department
     cell.emailLabel.text = employee.email
     cell.phoneNumberLabel.text = employee.phone
-    cell.pictureImageView.image = UIImage(data: employee.picture!)
+    cell.pictureImageView.image = UIImage(data: employee.pictureThumbnail!)
     
     return cell
   }

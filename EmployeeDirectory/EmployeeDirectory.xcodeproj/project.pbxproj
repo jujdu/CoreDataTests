@@ -34,6 +34,7 @@
 		4AFF39C1197DD47D00827FD3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFF39C0197DD47D00827FD3 /* CoreDataStack.swift */; };
 		642698AF1F350E7000BDE838 /* Sale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642698AB1F350E7000BDE838 /* Sale.swift */; };
 		642698B11F350E7000BDE838 /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642698AD1F350E7000BDE838 /* Employee.swift */; };
+		6F5B822923B23B2B004B149D /* EmployeePicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B822823B23B2B004B149D /* EmployeePicture.swift */; };
 		7969AA57198CDE0000E218AD /* EmployeeDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969AA56198CDE0000E218AD /* EmployeeDetailViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +108,7 @@
 		4AFF39C0197DD47D00827FD3 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; tabWidth = 2; };
 		642698AB1F350E7000BDE838 /* Sale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sale.swift; sourceTree = "<group>"; };
 		642698AD1F350E7000BDE838 /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
+		6F5B822823B23B2B004B149D /* EmployeePicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeePicture.swift; sourceTree = "<group>"; };
 		7969AA56198CDE0000E218AD /* EmployeeDetailViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeDetailViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,6 +166,7 @@
 				4A68F22119772956005A0865 /* EmployeeDirectory.xcdatamodeld */,
 				642698AB1F350E7000BDE838 /* Sale.swift */,
 				642698AD1F350E7000BDE838 /* Employee.swift */,
+				6F5B822823B23B2B004B149D /* EmployeePicture.swift */,
 				4A2587451977391C00B91160 /* seed.json */,
 				4A80737F1B362790008AB595 /* Launch Screen.storyboard */,
 				4AE8D5D719796F4B00C89ECA /* faces */,
@@ -342,6 +345,7 @@
 				4A68F22019772956005A0865 /* AppDelegate.swift in Sources */,
 				642698B11F350E7000BDE838 /* Employee.swift in Sources */,
 				4A2587421977357C00B91160 /* EmployeeTableViewCell.swift in Sources */,
+				6F5B822923B23B2B004B149D /* EmployeePicture.swift in Sources */,
 				642698AF1F350E7000BDE838 /* Sale.swift in Sources */,
 				4AE8D61D1979781F00C89ECA /* EmployeeDetailViewController.swift in Sources */,
 				4A68F22319772956005A0865 /* EmployeeDirectory.xcdatamodeld in Sources */,

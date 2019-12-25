@@ -58,9 +58,19 @@ class JournalListViewController: UITableViewController {
       // 3
       let surfJournalEntry = fetchedResultsController.object(at: indexPath)
       // 4
-      detailViewController.journalEntry = surfJournalEntry
-      detailViewController.context = surfJournalEntry.managedObjectContext
+        //1
+      let childContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+      childContext.parent = coreDataStack.mainContext
+        //2
+      let childEntry = childContext.object(with: surfJournalEntry.objectID) as? JournalEntry
+      
+        //3
+      detailViewController.journalEntry = childEntry
+      detailViewController.context = childContext
       detailViewController.delegate = self
+//      detailViewController.journalEntry = surfJournalEntry
+//      detailViewController.context = surfJournalEntry.managedObjectContext
+//      detailViewController.delegate = self
 
     } else if segue.identifier == "SegueListToDetailAdd" {
 
@@ -69,10 +79,13 @@ class JournalListViewController: UITableViewController {
           fatalError("Application storyboard mis-configuration")
       }
 
-      let newJournalEntry = JournalEntry(context: coreDataStack.mainContext)
+      let chieldContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+      chieldContext.parent = coreDataStack.mainContext
+      let newJournalEntry = JournalEntry(context: chieldContext)
 
+      
       detailViewController.journalEntry = newJournalEntry
-      detailViewController.context = newJournalEntry.managedObjectContext
+      detailViewController.context = chieldContext
       detailViewController.delegate = self
     }
   }
@@ -97,51 +110,69 @@ private extension JournalListViewController {
     navigationItem.leftBarButtonItem = activityIndicatorBarButtonItem()
 
     // 1
-    let context = coreDataStack.mainContext
-    var results: [JournalEntry] = []
-    do {
-      results = try context.fetch(self.surfJournalFetchRequest())
-    } catch let error as NSError {
-      print("ERROR: \(error.localizedDescription)")
-    }
-
-    // 2
-    let exportFilePath = NSTemporaryDirectory() + "export.csv"
-    let exportFileURL = URL(fileURLWithPath: exportFilePath)
-    FileManager.default.createFile(atPath: exportFilePath, contents: Data(), attributes: nil)
-
-    // 3
-    let fileHandle: FileHandle?
-    do {
-      fileHandle = try FileHandle(forWritingTo: exportFileURL)
-    } catch let error as NSError {
-      print("ERROR: \(error.localizedDescription)")
-      fileHandle = nil
-    }
-
-    if let fileHandle = fileHandle {
-      // 4
-      for journalEntry in results {
-        fileHandle.seekToEndOfFile()
-        guard let csvData = journalEntry
-          .csv()
-          .data(using: .utf8, allowLossyConversion: false) else {
-            continue
-        }
-
-        fileHandle.write(csvData)
+//    let context = coreDataStack.mainContext
+//    var results: [JournalEntry] = []
+//    do {
+//      results = try context.fetch(self.surfJournalFetchRequest())
+//    } catch let error as NSError {
+//      print("ERROR: \(error.localizedDescription)")
+    //    }
+    coreDataStack.storeContainer.performBackgroundTask { (context) in
+      var results: [JournalEntry] = []
+      do {
+        results = try context.fetch(self.surfJournalFetchRequest())
+      } catch let error as NSError {
+        print("Error: \(error.localizedDescription)")
       }
-
-      // 5
-      fileHandle.closeFile()
-
-      print("Export Path: \(exportFilePath)")
-      self.navigationItem.leftBarButtonItem = self.exportBarButtonItem()
-      self.showExportFinishedAlertView(exportFilePath)
-
-    } else {
-      self.navigationItem.leftBarButtonItem = self.exportBarButtonItem()
-    }
+      
+      // 2
+      let exportFilePath = NSTemporaryDirectory() + "export.csv"
+      let exportFileURL = URL(fileURLWithPath: exportFilePath)
+      FileManager.default.createFile(atPath: exportFilePath, contents: Data(), attributes: nil)
+      
+      // 3
+      let fileHandle: FileHandle?
+      do {
+        fileHandle = try FileHandle(forWritingTo: exportFileURL)
+      } catch let error as NSError {
+        print("ERROR: \(error.localizedDescription)")
+        fileHandle = nil
+      }
+      
+      if let fileHandle = fileHandle {
+        // 4
+        for journalEntry in results {
+          fileHandle.seekToEndOfFile()
+          guard let csvData = journalEntry
+            .csv()
+            .data(using: .utf8, allowLossyConversion: false) else { continue }
+          
+          fileHandle.write(csvData)
+        }
+        
+        // 5
+        fileHandle.closeFile()
+        
+        print("Export Path: \(exportFilePath)")
+        //6
+        
+        DispatchQueue.main.async {
+          self.navigationItem.leftBarButtonItem = self.exportBarButtonItem()
+          self.showExportFinishedAlertView(exportFilePath)
+        }
+      } else {
+        DispatchQueue.main.async {
+          self.navigationItem.leftBarButtonItem = self.exportBarButtonItem()
+        }
+        //
+        //        self.navigationItem.leftBarButtonItem = self.exportBarButtonItem()
+        //        self.showExportFinishedAlertView(exportFilePath)
+        //
+        //      } else {
+        //        self.navigationItem.leftBarButtonItem = self.exportBarButtonItem()
+        //      }
+      }
+    } //7 closing brace for performBackgroundTask
   }
 
   // MARK: Export
